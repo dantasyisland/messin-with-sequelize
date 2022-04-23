@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "sequelize": "^6.19.0",
+    "sqlite3": "^5.0.5"
+  },
+  "name": "messin-with-sequelize",
+  "description": "Learning the ropes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dantasyisland/messin-with-sequelize.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dantasyisland/messin-with-sequelize/issues"
+  },
+  "homepage": "https://github.com/dantasyisland/messin-with-sequelize#readme"
+}
