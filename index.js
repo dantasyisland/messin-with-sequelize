@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require("sequelize");
+const { Sequelize, Model, DataTypes, Op } = require("sequelize");
 
 // Sequelize - The Library itself
 // sequelize - an instance of sequelize
@@ -32,21 +32,85 @@ Student.init(
 
 (async () => {
   // await Student.sync({ force: true });
-  const danny = await Student.create({
-    firstName: "Danny",
-    lastName: "More Danny",
+
+  // Create
+  const first = await Student.create({
+    firstName: "Glen",
+    lastName: "Student",
   });
 
+  const second = await Student.create({
+    firstName: "Student",
+    lastName: "McStudenton",
+  });
+
+  console.log(second.firstName);
+  console.log(first.toJSON());
+
+  const jane = await Student.create({
+    firstName: "Jane",
+    lastName: "The Student",
+  });
+
+  // Update - using save -
+  second.firstName = "The";
+  second.save();
+
+  // Update - using update
+  await jane.update({ lastName: "Is Jane" });
+
+  // Delete
   Student.destroy({
     where: {
-      firstName: "Danny",
+      firstName: "1",
     },
   });
 
-  const danny2 = await Student.create({
-    firstName: "Danny Too",
-    lastName: "So cute",
+  /* ---------------------------------- READ ---------------------------------- */
+
+  // Find by ID
+
+  // const notJill = await Student.findByPk(53);
+  // console.log(notJill.toJSON());
+
+  // Not Jill
+  console.log((await Student.findByPk(53)).toJSON());
+
+  // Reload - Generates a select query to get up-to-date data from DB
+  const JaneReloaded = await Student.create({
+    firstName: "Jane",
   });
-  console.log(danny.toJSON());
-  console.log(danny2.toJSON());
+  console.log(JaneReloaded.firstName);
+
+  JaneReloaded.lastName = "Reloaded";
+
+  console.log(JaneReloaded.lastName);
+
+  await JaneReloaded.reload();
+  console.log(JaneReloaded.lastName);
+
+  const search = "Student";
+
+  // FIND ALL
+
+  // SELECT firstName AS FIRST, lastName FROM students
+  const allTheStudents = await Student.findAll({
+    attributes: [["firstName", "FIRST"], "lastName"],
+  });
+
+  // console.log(allTheStudents);
+  // console.log(allTheStudents.every((student) => student instanceof Student));
+  console.log("All users:", JSON.stringify(allTheStudents, null, 2));
+
+  // WHERE Clause
+
+  const whereTheStudents = await Student.findAll({
+    where: {
+      firstName: {
+        [Op.eq]: "Jane",
+      },
+    },
+  });
+
+  console.log(JSON.stringify(whereTheStudents, null, 2));
 })();
